@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+# 系统用户表
 class Users(AbstractUser):
     class Meta:
         db_table = 'users'
@@ -9,6 +10,7 @@ class Users(AbstractUser):
         verbose_name_plural = '系统用户'
 
 
+# 族谱成员表
 class Members(models.Model):
     GENDER_CHIOCES = [
         ('man', '男'),
@@ -21,7 +23,9 @@ class Members(models.Model):
     avater = models.CharField(max_length=500, null=True, blank=True, verbose_name='头像')
     introduction = models.TextField(null=True, blank=True, verbose_name='介绍')
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='父节点')
-    group = models.ForeignKey('Groups', on_delete=models.CASCADE, verbose_name='所属分组节点')
+    group = models.ForeignKey('group.Groups', on_delete=models.CASCADE, verbose_name='所属分组节点')
+    birthday = models.CharField(max_length=500, null=True, blank=True, verbose_name='生日', help_text="生日")
+    festival_day = models.CharField(max_length=500, null=True, blank=True, verbose_name='祭日', help_text="祭日")
     created_by = models.CharField(max_length=100, null=True, blank=True, verbose_name='创建人', help_text="创建人")
     updated_by = models.CharField(max_length=100, null=True, blank=True, verbose_name='更新人', help_text="更新人")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -34,21 +38,3 @@ class Members(models.Model):
         db_table = 'family_member'
         verbose_name = '家族成员'
         verbose_name_plural = '家族成员'
-
-
-class Groups(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=500, unique=True, verbose_name='族群名', help_text="族群名")
-    remark = models.TextField(blank=True, verbose_name='备注', help_text="备注")
-    created_by = models.CharField(max_length=100, verbose_name='创建人', help_text="创建人")
-    updated_by = models.CharField(max_length=100, verbose_name='更新人', help_text="更新人")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'family_group'
-        verbose_name = '族谱族群'
-        verbose_name_plural = '族谱族群'

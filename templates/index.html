@@ -55,14 +55,14 @@
                             <a href="javascript:void(0)"><i class="mdi mdi-account"></i> 成员管理</a>
                             <ul class="nav nav-subnav">
                                 <li><a href="/list/">成员列表</a></li>
-                                <li><a href="/add/">成员添加</a></li>
+                                <li><a href="/member_add/">成员添加</a></li>
                             </ul>
                         </li>
                         <li class="nav-item nav-item-has-subnav">
                             <a href="javascript:void(0)"><i class="mdi mdi-account-multiple"></i> 分组管理</a>
                             <ul class="nav nav-subnav">
-                                <li><a href="/group_add.html">群组添加</a></li>
-                                <li><a href="/group_list.html">群组列表</a></li>
+                                <li><a href="/group_add/">群组添加</a></li>
+                                <li><a href="/group_list/">群组列表</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -152,7 +152,7 @@
 <script type="text/javascript">
     $(document).ready(function (e) {
         const width = document.getElementById('container').scrollWidth
-        const height = document.getElementById('container').scrollHeight || 700
+        const height = document.getElementById('container').scrollHeight || 900
 
         const graph = new G6.TreeGraph({
             container: 'container',
@@ -172,7 +172,12 @@
                     {
                         type: 'tooltip',
                         formatText: function formatText(model) {
-                            const text = '<div class="card"><div class="card-header bg-primary"><h4 class="text-center">' + model.name.split('[')[0] + '</h4></div><div class="card-body"><h6><span>性别：</span><span>' + model.gender + '</span></h6><h6><span>配偶：</span><span>' + model.spouse + '</span></h6><h6><span>备注：</span><span>' + model.introduction + '</span></h6></div></div>'
+                            const text = '<div class="card"><div class="card-header bg-primary"><h4 class="text-center">' + model.name.split('[')[0] + '</h4></div>' +
+                                '<div class="card-body"><h6><span>性别：</span><span>' + model.gender + '</span></h6>' +
+                                '<h6><span>生于：</span><span>' + model.birthday + '</span></h6>' +
+                                '<h6><span>死于：</span><span>' + model.festival_day + '</span></h6>' +
+                                '<h6><span>配偶：</span><span>' + model.spouse + '</span></h6>' +
+                                '<h6><span>备注：</span><span>' + model.introduction + '</span></h6></div></div>'
                             return text
                         }
                     },

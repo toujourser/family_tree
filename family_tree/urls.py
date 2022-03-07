@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.user.views import Login, Logout, Index, Member
+from apps.user.views import Login, Logout, Index, Member, MemberAdd, MemberEdit
+from apps.group.views import GroupList, GroupAdd
 
 urlpatterns = [
+    path("group_edit/", MemberEdit.as_view()),
+    path("group_add/", GroupAdd.as_view()),
+    path("group_list/", GroupList.as_view()),
+    path("member_edit/", MemberEdit.as_view()),
+    path("member_add/", MemberAdd.as_view()),
     path("list/", Member.as_view()),
     path("index/", Index.as_view()),
     path("login/", Login.as_view()),
