@@ -33,7 +33,7 @@
 
             <!-- logo -->
             <div id="logo" class="sidebar-header">
-                <a href="index.html">
+                <a href="index/">
                     <h4 class="h4 text-primary">Family族谱管理系统</h4>
                 </a>
             </div>
@@ -123,7 +123,7 @@
                                         <label class="col-md-3 control-label" for="name">姓名<span
                                                 class="text-danger">*</span></label>
                                         <div class="col-md-7">
-                                            <input class="form-control" type="text" id="name" name="name"
+                                            <input class="form-control" type="text" id="name" name="name" required="required"
                                                    value="{{ user.name }}"
                                                    placeholder="请输入姓名..">
                                         </div>
@@ -134,9 +134,25 @@
                                         <div class="col-md-7">
                                             <select class="form-control selectpicker" id="gender" name="gender"
                                                     value="{{ user.gender }}">
-                                                <option value="MALE">男</option>
-                                                <option value="FEMALE">女</option>
+                                                <option value="man">男</option>
+                                                <option value="woman">女</option>
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="birthday">生于</label>
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="text" id="birthday" name="birthday"
+                                                   value="{{ user.birthday }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="festival_day">卒于</label>
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="text" id="festival_day"
+                                                   name="festival_day" value="{{ user.festival_day }}">
                                         </div>
                                     </div>
 
@@ -152,8 +168,8 @@
                                     <div class="form-group">
                                         <label class="col-md-3 control-label" for="introduction">备注</label>
                                         <div class="col-md-7">
-                        <textarea class="form-control" id="introduction" name="introduction"
-                                  placeholder="请输入备注">{{ user.introduction }}</textarea>
+                                            <textarea class="form-control" id="introduction" name="introduction"
+                                                      placeholder="请输入备注">{{ user.introduction }}</textarea>
                                         </div>
                                     </div>
 
@@ -162,6 +178,7 @@
                                                 class="text-danger">*</span></label>
                                         <div class="col-md-7">
                                             <select class="form-control selectpicker" id="groupId" name="groupId">
+                                                <option value="{{ group.id }}">{{ group.name }}</option>
                                                 {% for group in group_list %}
                                                     <option value="{{ group.id }}">{{ group.name }}</option>
                                                 {% endfor %}
@@ -175,6 +192,7 @@
                                         <div class="col-md-7">
                                             <select class="form-control selectpicker" data-live-search="true"
                                                     id="parentId" name="parentId">
+                                                <option value="{{ user.id }}">{{ user.name }}</option>
                                                 {% for member in member_list %}
                                                     <option value="{{ member.id }}">{{ member.name }}</option>
                                                 {% endfor %}

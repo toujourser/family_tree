@@ -44,7 +44,7 @@
 
             <!-- logo -->
             <div id="logo" class="sidebar-header">
-                <a href="index.html"><h4 class="h4 text-primary">Family族谱管理系统</h4></a>
+                <a href="/index/"><h4 class="h4 text-primary">Family族谱管理系统</h4></a>
             </div>
             <div class="lyear-layout-sidebar-scroll">
 
@@ -91,11 +91,12 @@
                                 <div class="form-group">
                                     <select class="form-control selectpicker" name="id"
                                             data-live-search="true">
-                                        {#                                        @ for(group in groups){#}
-                                        {#                                        <option value="${group.id}">${group.name}</option>#}
-                                        {#                                        @ }#}
+                                        <option value="{{ group_.id }}">{{ group_.name }}</option>
                                         {% for group in group_list %}
-                                            <option value="{{ group.id }}">{{ group.name }}</option>
+                                            {% if group.id != group_.id %}
+                                                <option value="{{ group.id }}">{{ group.name }}</option>
+                                            {% endif %}
+
                                         {% endfor %}
                                     </select>
                                 </div>

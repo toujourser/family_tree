@@ -54,3 +54,30 @@ class GroupAdd(View):
             return HttpResponse({'code': 400, 'msg': '族谱名已存在'})
         Groups(name=name, remark=remark, created_by=request.user.username).save()
         return redirect('/group_list/')
+
+
+class GroupEdit(View):
+    @method_decorator(login_required(login_url='/login/'))
+    def get(self, request):
+        group_id = request.GET.get('id')
+        print(group_id)
+        group = Groups.objects.get(id=group_id)
+        group_list = Groups.objects.all()
+        member_list = Members.objects.all()
+        username = request.user.username
+        return render(request, 'group_edit.html', locals())
+
+    @method_decorator(login_required(login_url='/login/'))
+    def post(self, request):
+        id = request.POST.get('id')
+        group = Groups.objects.filter(id=id).first()
+        if not group:
+            return HttpResponse({'code': 400, 'msg': '家谱节点不存在'})
+        name = request.POST.get('name')
+        if name == '':
+            return HttpResponse({'code': 400, 'msg': '家谱名称不可为空'})
+        group.name = name
+        group.remark = request.POST.get('introduction')
+        group.updated_by = request.user.username
+        group.save()
+        return redirect('/group_list/')

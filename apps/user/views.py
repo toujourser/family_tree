@@ -33,9 +33,10 @@ class Index(View):
     def get(self, request):
         group_id = request.GET.get('id', 1)
         data = self.get_tree(group_id)
+        group = Groups.objects.filter(id=group_id).first()
         group_list = Groups.objects.all()
         return render(request, "index.html",
-                      {'username': request.user.username, 'group_list': group_list, 'data': json.dumps(data)})
+                      {'username': request.user.username, 'group_list': group_list, 'data': json.dumps(data), 'group_': group})
 
     def get_tree(self, group_id):
         member_list = Members.objects.filter(group_id=group_id).all()
@@ -49,7 +50,7 @@ class Index(View):
 
     def gen_tree(self, root, member_list):
         for member in member_list:
-            if member.parent_id == root['id']:
+            if member.parent_id and member.parent_id == root.get('id'):
                 m = self.gen_map(member)
                 root['children'].append(m)
                 self.gen_tree(m, member_list)
@@ -67,7 +68,7 @@ class Member(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request):
         page = request.GET.get('page', 1)
-        page_size = request.GET.get('page_size', 5)
+        page_size = request.GET.get('page_size', 15)
         group_id = request.GET.get('groupId', '')
         input_name = request.GET.get('name', '')
 
@@ -96,7 +97,7 @@ class Member(View):
         group_list = Groups.objects.all()
 
         username = request.user.username
-        return render(request, "list.html", locals())
+        return render(request, "member_list.html", locals())
 
     @method_decorator(login_required(login_url='/login/'))
     def delete(self, request):
@@ -111,15 +112,15 @@ class MemberAdd(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request):
         group_list = Groups.objects.all()
-        member_list = Members.objects.all()
+        member_list = Members.objects.all().order_by('-id')
         username = request.user.username
-        return render(request, 'add.html', locals())
+        return render(request, 'member_add.html', locals())
 
     @method_decorator(login_required(login_url='/login/'))
     def post(self, request):
         name = request.POST.get('name')
         if name == '':
-            return HttpResponse('姓名不可为空')
+            return HttpResponse({'msg': '姓名不可为空', 'code': 400})
         gender = request.POST.get('gender')
         birthday = request.POST.get('birthday')
         festival_day = request.POST.get('festival_day')
@@ -127,21 +128,30 @@ class MemberAdd(View):
         introduction = request.POST.get('introduction')
         groupId = request.POST.get('groupId')
         if groupId == '' or groupId == 0:
-            return HttpResponse('群组不可为空')
-        parentId = request.POST.get('parentId')
-        parent = None
-        if int(parentId) > 0:
-            parent = Members.objects.filter(id=parentId).first()
-            if not parent:
-                return HttpResponse('找不到对应长辈')
+            return render(request, 'fail.html', {'msg': '群组不可为空...'})
 
         group = Groups.objects.filter(id=groupId).first()
         if not group:
-            return HttpResponse('找不到对应族谱')
+            return HttpResponse({'code': 400, 'msg': '找不到对应族谱'})
+
+        parentId = request.POST.get('parentId')
+        parent = None
+        if len(parentId) > 0:
+            parent = Members.objects.filter(id=parentId).first()
+            if not parent:
+                return HttpResponse('找不到对应长辈')
+            if parent.group_id != int(groupId):
+                return HttpResponse({'code': '400', 'msg': '父节点不属于该族谱'})
+        else:
+            ms = Members.objects.filter(group_id=groupId).all()
+            # 如果该族谱有成员则报错，没有则是族谱第一人
+            if ms:
+                return render(request, 'fail.html', {'msg': '长辈信息不在该群组范围中...'})
+
         m = Members(name=name, gender=gender, birthday=birthday, festival_day=festival_day, spouse=spouse,
-                    introduction=introduction, group=group, parent=parent)
+                    introduction=introduction, group=group, parent=parent, created_by=request.user.username)
         m.save()
-        return self.get(request)
+        return render(request, 'member_add_success.html')
 
 
 class MemberEdit(View):
@@ -152,10 +162,11 @@ class MemberEdit(View):
             member_id = id
         print(member_id)
         user = Members.objects.get(id=member_id)
+        group = user.group
         group_list = Groups.objects.all()
         member_list = Members.objects.all()
         username = request.user.username
-        return render(request, 'edit.html', locals())
+        return render(request, 'member_edit.html', locals())
 
     @method_decorator(login_required(login_url='/login/'))
     def post(self, request):
@@ -185,6 +196,7 @@ class MemberEdit(View):
             if not parent:
                 return HttpResponse('找不到对应长辈')
             member.parent = parent
+        member.updated_by = request.user.username
         member.save()
         return redirect('/list/')
 

@@ -97,7 +97,7 @@
 
             <!-- logo -->
             <div id="logo" class="sidebar-header">
-                <a href="index.html">
+                <a href="index/">
                     <h4 class="h4 text-primary">Family族谱管理系统</h4>
                 </a>
             </div>
@@ -261,7 +261,7 @@
                                         <li>
                                             {% if  page_id == index %}
                                                 <li class="active"><a
-                                                        href="/list?page={{ index }}&groupId={{ group_id }}&name={{ input_name }}">{{ index }}</a>
+                                                        href="/list/?page={{ index }}&groupId={{ group_id }}&name={{ input_name }}">{{ index }}</a>
                                                 </li>
                                             {% else %}
                                                 <a href="/list/?page={{ index }}&groupId={{ group_id }}&name={{ input_name }}">{{ index }}</a>

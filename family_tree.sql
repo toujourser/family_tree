@@ -11,7 +11,7 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 04/03/2022 17:50:53
+ Date: 08/03/2022 11:28:34
 */
 
 SET NAMES utf8mb4;
@@ -227,7 +227,13 @@ CREATE TABLE `django_session` (
 -- Records of django_session
 -- ----------------------------
 BEGIN;
+INSERT INTO `django_session` VALUES ('2jb4t7w9ep59ppsmwsrb2efmr6f2qt18', '.eJxVjDsOwjAQBe_iGln-4cSU9DmDtd5d4wCypTipEHeHSCmgfTPzXiLCtpa4dV7iTOIitDj9bgnwwXUHdId6axJbXZc5yV2RB-1yasTP6-H-HRTo5Vt7tBoUaiAO5ExmJqU8muDOWtvAmZ3yoyaXrfcGx4BmII-DteRUYiXeH-nXN8Y:1nR7zR:7iv0fnIzN2llVE1wJWbJ8kIbrw0uLwfa3h5N1mSrwOw', '2022-03-21 15:41:09.964721');
 INSERT INTO `django_session` VALUES ('8530ug0zex4jf6ng9jylytaue493qpi6', '.eJxVjDsOwjAQBe_iGln-4cSU9DmDtd5d4wCypTipEHeHSCmgfTPzXiLCtpa4dV7iTOIitDj9bgnwwXUHdId6axJbXZc5yV2RB-1yasTP6-H-HRTo5Vt7tBoUaiAO5ExmJqU8muDOWtvAmZ3yoyaXrfcGx4BmII-DteRUYiXeH-nXN8Y:1nQ3wt:T3gkwEkf0wTO4JsE1XkCzWMOcp4oiUDlJaZSr2rF7-o', '2022-03-18 17:10:07.863922');
+INSERT INTO `django_session` VALUES ('by1oh5d71paeqhjqks5hx96u202goceh', '.eJxVjDsOwjAQBe_iGln-4cSU9DmDtd5d4wCypTipEHeHSCmgfTPzXiLCtpa4dV7iTOIitDj9bgnwwXUHdId6axJbXZc5yV2RB-1yasTP6-H-HRTo5Vt7tBoUaiAO5ExmJqU8muDOWtvAmZ3yoyaXrfcGx4BmII-DteRUYiXeH-nXN8Y:1nR85r:fx7qLApSY_MKd_yh7dsgaxI2ouSmnWDY7Oyk63yXeUs', '2022-03-21 15:47:47.765050');
+INSERT INTO `django_session` VALUES ('lgj6nflza4aohtafbdrygthhxaiqdcz7', '.eJxVjDsOwjAQBe_iGln-4cSU9DmDtd5d4wCypTipEHeHSCmgfTPzXiLCtpa4dV7iTOIitDj9bgnwwXUHdId6axJbXZc5yV2RB-1yasTP6-H-HRTo5Vt7tBoUaiAO5ExmJqU8muDOWtvAmZ3yoyaXrfcGx4BmII-DteRUYiXeH-nXN8Y:1nR79W:QHIE3tY5s91n433TBXoeFaX83ucFPY0MvCHCk3DkSXE', '2022-03-21 14:47:30.488097');
+INSERT INTO `django_session` VALUES ('mz0zbzc54fzrmd8rpp5pzge72z5ra64h', '.eJxVjDsOwjAQBe_iGln-4cSU9DmDtd5d4wCypTipEHeHSCmgfTPzXiLCtpa4dV7iTOIitDj9bgnwwXUHdId6axJbXZc5yV2RB-1yasTP6-H-HRTo5Vt7tBoUaiAO5ExmJqU8muDOWtvAmZ3yoyaXrfcGx4BmII-DteRUYiXeH-nXN8Y:1nRCy3:rhDaFOI__hSXKRg0bnJ_igyq7qzF4JYn_C502-xTwTU', '2022-03-21 21:00:03.589594');
+INSERT INTO `django_session` VALUES ('pt4lw1wlp9nztvvvetknl0y65e3h96n7', '.eJxVjDsOwjAQBe_iGln-4cSU9DmDtd5d4wCypTipEHeHSCmgfTPzXiLCtpa4dV7iTOIitDj9bgnwwXUHdId6axJbXZc5yV2RB-1yasTP6-H-HRTo5Vt7tBoUaiAO5ExmJqU8muDOWtvAmZ3yoyaXrfcGx4BmII-DteRUYiXeH-nXN8Y:1nRQW9:6RHzxMiKfCVX_oCXbyo-3Nybsu4Li7PX2jaba82QLxM', '2022-03-22 11:28:09.430220');
+INSERT INTO `django_session` VALUES ('v2n0o0jea50isxs5bcjr6ebpvae7qc4q', '.eJxVjDsOwjAQBe_iGln-4cSU9DmDtd5d4wCypTipEHeHSCmgfTPzXiLCtpa4dV7iTOIitDj9bgnwwXUHdId6axJbXZc5yV2RB-1yasTP6-H-HRTo5Vt7tBoUaiAO5ExmJqU8muDOWtvAmZ3yoyaXrfcGx4BmII-DteRUYiXeH-nXN8Y:1nR846:XDB4SIZgVLkBVxBHzYITTKvrNYik1eImEugkDBjPmUc', '2022-03-21 15:45:58.265907');
 COMMIT;
 
 -- ----------------------------
@@ -244,14 +250,14 @@ CREATE TABLE `family_group` (
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of family_group
 -- ----------------------------
 BEGIN;
-INSERT INTO `family_group` VALUES (1, '汉朝', '汉朝（公元前202年[注 1]－公元220年）是秦朝后出现的朝代，又称天汉，在中国历史上极具有代表性，具有承先启后的重要地位。', '', 'admin', '2022-03-04 13:50:13.309122', '2022-03-04 13:50:13.309151');
-INSERT INTO `family_group` VALUES (2, '宋朝', '宋朝（中古汉语IPA读音：/suoŋH/，960年2月4日－1279年3月19日）是中国历史上的一个朝代，根据首都及疆域的变迁，可细分为北宋与南宋，合称两宋，共享国319年。又因国君姓赵，为区别于南北朝时期的南朝宋，故亦称“赵宋”。', 'admin', 'admin', '2022-03-04 14:01:54.903772', '2022-03-04 14:01:54.903797');
+INSERT INTO `family_group` VALUES (1, '汉朝', '汉朝（公元前202年[注 1]－公元220年）是秦朝后出现的朝代，又称天汉，在中国历史上极具有代表性，具有承先启后的重要地位。', 'admin', '', '2022-03-08 09:48:40.811489', '2022-03-08 09:48:40.811520');
+INSERT INTO `family_group` VALUES (2, '宋朝', '宋朝（960年2月4日－1279年3月19日）是中国历史上的一个朝代，根据首都及疆域的变迁，可细分为北宋与南宋，合称两宋，共享国319年。', 'admin', '', '2022-03-08 09:50:59.023838', '2022-03-08 09:52:44.269251');
 COMMIT;
 
 -- ----------------------------
@@ -264,6 +270,8 @@ CREATE TABLE `family_member` (
   `spouse` varchar(100) DEFAULT NULL,
   `gender` varchar(8) NOT NULL,
   `avater` varchar(500) DEFAULT NULL,
+  `birthday` varchar(500) DEFAULT NULL,
+  `festival_day` varchar(500) DEFAULT NULL,
   `introduction` longtext,
   `created_by` varchar(100) DEFAULT NULL,
   `updated_by` varchar(100) DEFAULT NULL,
@@ -276,24 +284,54 @@ CREATE TABLE `family_member` (
   KEY `family_member_parent_id_a576d458_fk_family_member_id` (`parent_id`),
   CONSTRAINT `family_member_group_id_31a976c0_fk_family_group_id` FOREIGN KEY (`group_id`) REFERENCES `family_group` (`id`),
   CONSTRAINT `family_member_parent_id_a576d458_fk_family_member_id` FOREIGN KEY (`parent_id`) REFERENCES `family_member` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of family_member
 -- ----------------------------
 BEGIN;
-INSERT INTO `family_member` VALUES (1, '刘邦', '吕雉', 'man', NULL, '汉高祖', 'admin', 'admin', '2022-03-04 13:51:21.812491', '2022-03-04 13:51:21.812530', 1, NULL);
-INSERT INTO `family_member` VALUES (2, '刘肥', NULL, 'man', NULL, '齐悼惠王', 'admin', 'admin', '2022-03-04 13:51:57.148412', '2022-03-04 13:51:57.148454', 1, 1);
-INSERT INTO `family_member` VALUES (3, '刘盈', NULL, 'man', NULL, '汉惠帝', 'admin', 'admin', '2022-03-04 13:52:33.003357', '2022-03-04 13:52:33.003388', 1, 1);
-INSERT INTO `family_member` VALUES (4, '刘恒', NULL, 'man', NULL, '汉文帝', 'admin', 'admin', '2022-03-04 13:53:02.408621', '2022-03-04 13:53:02.408668', 1, 1);
-INSERT INTO `family_member` VALUES (5, '刘弘', NULL, 'man', NULL, '后少帝', NULL, NULL, '2022-03-04 13:53:34.828695', '2022-03-04 13:53:34.828731', 1, 3);
-INSERT INTO `family_member` VALUES (6, '刘启', NULL, 'man', NULL, '汉景帝', 'admin', 'admin', '2022-03-04 13:54:04.499808', '2022-03-04 13:54:04.499838', 1, 4);
-INSERT INTO `family_member` VALUES (7, '赵朓', NULL, 'man', NULL, '宋僖祖', 'admin', 'admin', '2022-03-04 14:02:29.466035', '2022-03-04 14:02:29.466061', 2, NULL);
-INSERT INTO `family_member` VALUES (8, '赵珽', NULL, 'man', NULL, '宋顺祖', 'admin', 'admin', '2022-03-04 14:02:50.129822', '2022-03-04 14:02:50.130283', 2, 7);
-INSERT INTO `family_member` VALUES (9, '赵敬', NULL, 'man', NULL, '宋翼祖', 'admin', 'admin', '2022-03-04 14:03:16.462388', '2022-03-04 14:03:16.462421', 2, 8);
-INSERT INTO `family_member` VALUES (10, '赵弘殷', NULL, 'man', NULL, '宋宣祖', 'admin', 'admin', '2022-03-04 14:03:35.115281', '2022-03-04 14:03:35.115362', 2, 9);
-INSERT INTO `family_member` VALUES (11, '赵匡胤', NULL, 'man', NULL, '宋太祖', 'admin', 'admin', '2022-03-04 14:04:13.494930', '2022-03-04 14:04:13.494959', 2, 10);
-INSERT INTO `family_member` VALUES (12, '赵炅', NULL, 'man', NULL, '宋太宗', 'admin', 'admin', '2022-03-04 14:04:29.056502', '2022-03-04 14:04:29.056535', 2, 10);
+INSERT INTO `family_member` VALUES (3, '刘邦', '吕雉', 'man', NULL, '公元前256', '公元前195', '汉高祖', NULL, NULL, '2022-03-08 10:22:44.997880', '2022-03-08 10:22:44.997903', 1, NULL);
+INSERT INTO `family_member` VALUES (4, '刘肥', '', 'man', NULL, '公元前221', '公元前189', '齐悼惠王', NULL, NULL, '2022-03-08 10:28:59.425071', '2022-03-08 10:28:59.425122', 1, 3);
+INSERT INTO `family_member` VALUES (6, '刘盈', '', 'man', NULL, '公元前210', '公元前188', '汉惠帝', NULL, NULL, '2022-03-08 10:33:42.683297', '2022-03-08 10:33:42.683328', 1, 3);
+INSERT INTO `family_member` VALUES (7, '刘恒', '', 'man', NULL, '公元前202', '公元前157', '汉文帝', NULL, NULL, '2022-03-08 10:34:16.869345', '2022-03-08 10:34:16.869373', 1, 3);
+INSERT INTO `family_member` VALUES (8, '刘弘', '', 'man', NULL, '公元前192', '公元前180', '后少帝', NULL, NULL, '2022-03-08 10:34:58.369786', '2022-03-08 10:34:58.369816', 1, 6);
+INSERT INTO `family_member` VALUES (9, '刘章', '', 'man', NULL, '公元前200', '公元前177', '城阳景王', NULL, NULL, '2022-03-08 10:35:46.648375', '2022-03-08 10:35:46.648421', 1, 4);
+INSERT INTO `family_member` VALUES (10, '刘启', '', 'man', NULL, '公元前188', '公元前141', '汉景帝', NULL, NULL, '2022-03-08 10:39:45.452972', '2022-03-08 10:39:45.452991', 1, 7);
+INSERT INTO `family_member` VALUES (11, '刘武', '', 'man', NULL, '公元前167', '公元前144', '梁孝王', NULL, NULL, '2022-03-08 10:40:36.221535', '2022-03-08 10:40:36.221566', 1, 7);
+INSERT INTO `family_member` VALUES (12, '刘发', '', 'man', NULL, '未详', '公元前127', '长沙定王', NULL, NULL, '2022-03-08 10:42:14.712171', '2022-03-08 10:42:14.712198', 1, 10);
+INSERT INTO `family_member` VALUES (13, '刘彻', '', 'man', NULL, '公元前157', '公元前87', '汉武帝\r\n', NULL, NULL, '2022-03-08 10:43:18.208371', '2022-03-08 10:43:18.208399', 1, 10);
+INSERT INTO `family_member` VALUES (14, '刘买', '', 'man', NULL, '未详', '公元前136', '梁共王\r\n', NULL, NULL, '2022-03-08 10:44:03.170027', '2022-03-08 10:44:03.170054', 1, 11);
+INSERT INTO `family_member` VALUES (15, '刘据', '', 'man', NULL, '公元前128', '公元前91', '戾太子\r\n', NULL, NULL, '2022-03-08 10:45:17.914152', '2022-03-08 10:45:17.914183', 1, 13);
+INSERT INTO `family_member` VALUES (16, '刘髆', '', 'man', NULL, '未详', '公元前88', '昌邑哀王\r\n', NULL, NULL, '2022-03-08 10:45:56.607809', '2022-03-08 10:45:56.607836', 1, 13);
+INSERT INTO `family_member` VALUES (17, '刘弗陵', '', 'man', NULL, '公元前94', '公元前74', '汉昭帝\r\n', NULL, NULL, '2022-03-08 10:47:34.779530', '2022-03-08 10:47:34.779555', 1, 13);
+INSERT INTO `family_member` VALUES (18, '刘进', '', 'man', NULL, '公元前113', '公元前91', '悼皇考\r\n', NULL, NULL, '2022-03-08 10:48:06.941390', '2022-03-08 10:48:06.941423', 1, 15);
+INSERT INTO `family_member` VALUES (19, '刘贺', '', 'man', NULL, '公元前92', '公元前59', '海昏侯\r\n', NULL, NULL, '2022-03-08 10:48:37.461324', '2022-03-08 10:48:37.461365', 1, 16);
+INSERT INTO `family_member` VALUES (20, '刘询', '', 'man', NULL, '公元前91', '公元前48', '汉宣帝\r\n', NULL, NULL, '2022-03-08 10:50:14.054658', '2022-03-08 10:50:14.054691', 1, 18);
+INSERT INTO `family_member` VALUES (21, '刘奭', '', 'man', NULL, '公元前75', '公元前33', '汉元帝\r\n', NULL, NULL, '2022-03-08 10:51:11.840031', '2022-03-08 10:51:11.840059', 1, 20);
+INSERT INTO `family_member` VALUES (22, '刘嚣', '', 'man', NULL, '未详', '公元前25', '楚孝王\r\n', NULL, NULL, '2022-03-08 10:51:40.289036', '2022-03-08 10:51:40.289080', 1, 20);
+INSERT INTO `family_member` VALUES (23, '刘宇', '', 'man', NULL, '未详', '公元前20', '东平思王\r\n', NULL, NULL, '2022-03-08 10:52:20.380240', '2022-03-08 10:52:20.380265', 1, 20);
+INSERT INTO `family_member` VALUES (24, '赵弘殷', '', 'man', NULL, '900', '956', '宋宣祖\r\n\r\n', 'admin', 'admin', '2022-03-08 10:55:45.479257', '2022-03-08 11:09:02.547555', 2, NULL);
+INSERT INTO `family_member` VALUES (25, '赵匡胤', '', 'man', NULL, '927', '976', '宋太祖\r\n', 'admin', NULL, '2022-03-08 11:07:36.796478', '2022-03-08 11:07:36.796509', 2, 24);
+INSERT INTO `family_member` VALUES (26, '赵炅', '', 'man', NULL, '939', '997', '宋太宗\r\n', 'admin', NULL, '2022-03-08 11:08:29.100357', '2022-03-08 11:08:29.100384', 2, 24);
+INSERT INTO `family_member` VALUES (27, '赵德昭', '', 'man', NULL, '951', '979', '燕懿王\r\n', 'admin', NULL, '2022-03-08 11:15:43.308972', '2022-03-08 11:15:43.309003', 2, 25);
+INSERT INTO `family_member` VALUES (28, '赵德芳', '', 'man', NULL, '959', '981', '秦康惠王\r\n', 'admin', NULL, '2022-03-08 11:16:07.389943', '2022-03-08 11:16:07.389976', 2, 25);
+INSERT INTO `family_member` VALUES (29, '赵恒', '', 'man', NULL, '968', '1022', '宋真宗\r\n', 'admin', NULL, '2022-03-08 11:16:29.482078', '2022-03-08 11:16:29.482118', 2, 26);
+INSERT INTO `family_member` VALUES (30, '赵元份', '', 'man', NULL, '970', '1005', '商恭靖王\r\n', 'admin', NULL, '2022-03-08 11:16:58.642946', '2022-03-08 11:16:58.642977', 2, 26);
+INSERT INTO `family_member` VALUES (31, '赵惟吉', '', 'man', NULL, '966', '1010', '冀康孝王\r\n', 'admin', NULL, '2022-03-08 11:17:30.980684', '2022-03-08 11:17:30.980713', 2, 27);
+INSERT INTO `family_member` VALUES (32, '赵惟宪', '', 'man', NULL, '980', '1016', '英国公\r\n', 'admin', NULL, '2022-03-08 11:17:49.452351', '2022-03-08 11:17:49.452378', 2, 28);
+INSERT INTO `family_member` VALUES (33, '赵祯', '', 'man', NULL, '1010', '1063', '宋仁宗\r\n', 'admin', NULL, '2022-03-08 11:18:10.586181', '2022-03-08 11:18:10.586205', 2, 29);
+INSERT INTO `family_member` VALUES (34, '赵允让', '', 'man', NULL, '995', '1060', '濮安懿王\r\n', 'admin', NULL, '2022-03-08 11:18:35.244558', '2022-03-08 11:18:35.244575', 2, 30);
+INSERT INTO `family_member` VALUES (35, '赵守度', '', 'man', NULL, '1010', '1038', '庐江侯\r\n', 'admin', NULL, '2022-03-08 11:18:58.899825', '2022-03-08 11:18:58.899849', 2, 31);
+INSERT INTO `family_member` VALUES (36, '赵从郁', '', 'man', NULL, '1016', '1048', '新兴侯\r\n', 'admin', NULL, '2022-03-08 11:19:29.697786', '2022-03-08 11:19:29.697812', 2, 32);
+INSERT INTO `family_member` VALUES (37, '赵曙', '', 'man', NULL, '', '', '宋英宗\r\n', 'admin', NULL, '2022-03-08 11:19:47.275274', '2022-03-08 11:19:47.275300', 2, 34);
+INSERT INTO `family_member` VALUES (38, '赵顼', '', 'man', NULL, '1048', '1085', '宋神宗\r\n', 'admin', NULL, '2022-03-08 11:20:32.298570', '2022-03-08 11:20:32.298599', 2, 37);
+INSERT INTO `family_member` VALUES (39, '赵煦', '', 'man', NULL, '1077', '1100', '宋哲宗\r\n', 'admin', NULL, '2022-03-08 11:20:54.384933', '2022-03-08 11:20:54.384964', 2, 38);
+INSERT INTO `family_member` VALUES (40, '赵佶', '', 'man', NULL, '1082', '1135', '宋徽宗\r\n', 'admin', NULL, '2022-03-08 11:21:12.144753', '2022-03-08 11:21:12.144783', 2, 38);
+INSERT INTO `family_member` VALUES (41, '赵桓', '', 'man', NULL, '1100', '1156', '宋钦宗\r\n', 'admin', NULL, '2022-03-08 11:21:59.343051', '2022-03-08 11:21:59.343079', 2, 40);
+INSERT INTO `family_member` VALUES (42, '赵构', '', 'man', NULL, '1107', '1187', '宋高宗\r\n', 'admin', NULL, '2022-03-08 11:22:18.601354', '2022-03-08 11:22:18.601386', 2, 40);
+INSERT INTO `family_member` VALUES (43, '赵旉', '', 'man', NULL, '1127', '1129', '元懿太子', 'admin', NULL, '2022-03-08 11:22:51.480600', '2022-03-08 11:22:51.480622', 2, 42);
+INSERT INTO `family_member` VALUES (44, '赵世括', '', 'man', NULL, '1038', '1056', '嘉国公\r\n', 'admin', NULL, '2022-03-08 11:23:22.335199', '2022-03-08 11:23:22.335229', 2, 35);
+INSERT INTO `family_member` VALUES (45, '赵世将', '', 'man', NULL, '1048', '1080', '赠福国公\r\n', 'admin', NULL, '2022-03-08 11:23:51.754631', '2022-03-08 11:23:51.754661', 2, 36);
 COMMIT;
 
 -- ----------------------------
@@ -320,7 +358,7 @@ CREATE TABLE `users` (
 -- Records of users
 -- ----------------------------
 BEGIN;
-INSERT INTO `users` VALUES (1, 'pbkdf2_sha256$320000$5cMZBij9KhAaQ0emdzqyhU$PMriUhWTeil2Q2fj1uF2w3A8fWmxius+KyG3ckxR9SA=', '2022-03-04 17:10:07.842221', 1, 'admin', '', '', '172870541@qq.com', 1, 1, '2022-03-04 13:49:13.190232');
+INSERT INTO `users` VALUES (1, 'pbkdf2_sha256$320000$5cMZBij9KhAaQ0emdzqyhU$PMriUhWTeil2Q2fj1uF2w3A8fWmxius+KyG3ckxR9SA=', '2022-03-08 11:28:09.412687', 1, 'admin', '', '', '172870541@qq.com', 1, 1, '2022-03-04 13:49:13.190232');
 COMMIT;
 
 -- ----------------------------
