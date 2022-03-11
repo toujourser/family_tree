@@ -13,19 +13,18 @@ import json
 
 class Login(View):
     def get(self, request):
-        return render(request, "login.html")
+        return render(request, 'login.html')
 
     def post(self, request):
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password, "------------------")
         # 验证用户密码
         user = authenticate(username=username, password=password)
         if user:
             login(request, user)
-            return redirect("/index/")
+            return redirect('/index/')
         else:
-            return render(request, "login.html")
+            return render(request, 'login.html')
 
 
 class Index(View):
@@ -35,8 +34,9 @@ class Index(View):
         data = self.get_tree(group_id)
         group = Groups.objects.filter(id=group_id).first()
         group_list = Groups.objects.all()
-        return render(request, "index.html",
-                      {'username': request.user.username, 'group_list': group_list, 'data': json.dumps(data), 'group_': group})
+        return render(request, 'index.html',
+                      {'username': request.user.username, 'group_list': group_list, 'data': json.dumps(data),
+                       'group_': group})
 
     def get_tree(self, group_id):
         member_list = Members.objects.filter(group_id=group_id).all()
@@ -45,7 +45,6 @@ class Index(View):
             if not member.parent_id:
                 root = self.gen_map(member)
         self.gen_tree(root, member_list)
-        print(root)
         return root
 
     def gen_tree(self, root, member_list):
@@ -88,7 +87,7 @@ class Member(View):
         paginator = Paginator(member_obs, page_size)
         # 根据当前页码,确定返回的数据
         current_page = paginator.page(page)
-        # 保证前端取到的"页数"为整型
+        # 保证前端取到的'页数'为整型
         page_id = int(page)
         # 总数
         count = paginator.count
@@ -97,13 +96,12 @@ class Member(View):
         group_list = Groups.objects.all()
 
         username = request.user.username
-        return render(request, "member_list.html", locals())
+        return render(request, 'member_list.html', locals())
 
     @method_decorator(login_required(login_url='/login/'))
     def delete(self, request):
         param = json.loads(request.body)
         member_id = param['id']
-        print(member_id)
         Members.objects.filter(id=member_id).delete()
         return HttpResponse({'code': 200, 'status': 'successfull'})
 
@@ -120,7 +118,7 @@ class MemberAdd(View):
     def post(self, request):
         name = request.POST.get('name')
         if name == '':
-            return HttpResponse({'msg': '姓名不可为空', 'code': 400})
+            return render(request, 'fail.html', {'msg': '姓名不可为空...'})
         gender = request.POST.get('gender')
         birthday = request.POST.get('birthday')
         festival_day = request.POST.get('festival_day')
@@ -132,21 +130,21 @@ class MemberAdd(View):
 
         group = Groups.objects.filter(id=groupId).first()
         if not group:
-            return HttpResponse({'code': 400, 'msg': '找不到对应族谱'})
+            return render(request, 'fail.html', {'msg': '找不到对应族谱...'})
 
         parentId = request.POST.get('parentId')
         parent = None
         if len(parentId) > 0:
             parent = Members.objects.filter(id=parentId).first()
             if not parent:
-                return HttpResponse('找不到对应长辈')
+                return render(request, 'fail.html', {'msg': '找不到对应长辈.'})
             if parent.group_id != int(groupId):
-                return HttpResponse({'code': '400', 'msg': '父节点不属于该族谱'})
+                return render(request, 'fail.html', {'msg': '长辈不属于该族谱.'})
         else:
             ms = Members.objects.filter(group_id=groupId).all()
             # 如果该族谱有成员则报错，没有则是族谱第一人
             if ms:
-                return render(request, 'fail.html', {'msg': '长辈信息不在该群组范围中...'})
+                return render(request, 'fail.html', {'msg': '该族谱已有节点，请选择成员的父辈...'})
 
         m = Members(name=name, gender=gender, birthday=birthday, festival_day=festival_day, spouse=spouse,
                     introduction=introduction, group=group, parent=parent, created_by=request.user.username)
@@ -160,8 +158,8 @@ class MemberEdit(View):
         member_id = request.GET.get('id')
         if not member_id:
             member_id = id
-        print(member_id)
         user = Members.objects.get(id=member_id)
+        parent = user.parent
         group = user.group
         group_list = Groups.objects.all()
         member_list = Members.objects.all()
@@ -174,7 +172,7 @@ class MemberEdit(View):
         member = Members.objects.filter(id=id).first()
         name = request.POST.get('name')
         if name == '':
-            return HttpResponse('姓名不可为空')
+            return render(request, 'fail.html', {'msg': '姓名不可为空...'})
         member.name = name
         member.gender = request.POST.get('gender')
         member.birthday = request.POST.get('birthday')
@@ -183,10 +181,10 @@ class MemberEdit(View):
         member.introduction = request.POST.get('introduction')
         groupId = request.POST.get('groupId')
         if groupId == '' or groupId == 0:
-            return HttpResponse('群组不可为空')
+            return render(request, 'fail.html', {'msg': '群组不可为空...'})
         group = Groups.objects.filter(id=groupId).first()
         if not group:
-            return HttpResponse('找不到对应族谱')
+            return render(request, 'fail.html', {'msg': '找不到对应族谱...'})
         member.group = group
 
         parentId = request.POST.get('parentId')
@@ -194,7 +192,7 @@ class MemberEdit(View):
         if int(parentId) > 0:
             parent = Members.objects.filter(id=parentId).first()
             if not parent:
-                return HttpResponse('找不到对应长辈')
+                return render(request, 'fail.html', {'msg': '找不到对应长辈...'})
             member.parent = parent
         member.updated_by = request.user.username
         member.save()
@@ -204,4 +202,4 @@ class MemberEdit(View):
 class Logout(View):
     def get(self, request):
         logout(request)
-        return render(request, "login.html")
+        return render(request, 'login.html')

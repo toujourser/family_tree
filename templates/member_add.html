@@ -1,227 +1,148 @@
-<!DOCTYPE html>
-<html lang="zh">
-<script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?bc04990a72f1dd0b20287368c447790d";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>成员录入 -Family族谱系统</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
-    <meta name="keywords" content="Family族谱系统">
-    <meta name="description" content="Family族谱系统">
-    <meta name="author" content="zeal">
+{% block title %}成员录入-Family族谱系统{% endblock title %}
+
+
+{% block head_list %}
     <link href="https://pan.zealsay.com/family/static/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select\@1.13.9/dist/css/bootstrap-select.min.css">
     <link href="https://pan.zealsay.com/family/static/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://pan.zealsay.com/family/static/css/style.min.css" rel="stylesheet">
-</head>
+{% endblock head_list %}
 
-<body class="lyear-layout-sidebar-close">
-<div class="lyear-layout-web">
-    <div class="lyear-layout-container">
-        <!--左侧导航-->
-        <aside class="lyear-layout-sidebar">
 
-            <!-- logo -->
-            <div id="logo" class="sidebar-header">
-                <a href="/index">
-                    <h4 class="h4 text-primary">Family族谱管理系统</h4>
-                </a>
-            </div>
-            <div class="lyear-layout-sidebar-scroll">
+{% block current_title %}成员录入页{% endblock current_title %}
+{% block index_select %}{% endblock index_select %}
 
-                <nav class="sidebar-main">
-                    <ul class="nav nav-drawer">
-                        <li class="nav-item active"><a href="/index/"><i class="mdi mdi-home"></i> 族谱树</a></li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-account"></i> 成员管理</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="/list/">成员列表</a></li>
-                                <li><a href="/member_add/">成员添加</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-account-multiple"></i> 分组管理</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="/group_add/">群组添加</a></li>
-                                <li><a href="/group_list/">群组列表</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+{% block content %}
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
 
-        </aside>
-        <!--End 左侧导航-->
+        <div class="container-fluid">
 
-        <!--头部信息-->
-        <header class="lyear-layout-header">
-
-            <nav class="navbar navbar-default">
-                <div class="topbar">
-
-                    <div class="topbar-left">
-                        <div class="lyear-aside-toggler">
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>成员信息录入</h4>
                         </div>
-                        <span class="navbar-page-title"> 成员添加页 </span>
-                    </div>
+                        <div class="card-body">
 
-                    <ul class="topbar-right">
-                        <li class="dropdown dropdown-profile">
-                            <a href="javascript:void(0)" data-toggle="dropdown">
-                                <span>{{ username }}  <span
-                                        class="caret"></span></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="/logout"><i class="mdi mdi-logout-variant"></i> 退出登录</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                </div>
-            </nav>
-
-        </header>
-        <!--End 头部信息-->
-
-        <!--页面主要内容-->
-        <main class="lyear-layout-content">
-
-            <div class="container-fluid">
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>成员信息录入</h4>
-                            </div>
-                            <div class="card-body">
-
-                                <form class="form-horizontal" action="/member_add/" method="post">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="name">姓名<span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-md-7">
-                                            <input class="form-control" type="text" id="name" name="name"
-                                                   required="required"
-                                                   placeholder="请输入姓名..">
-                                        </div>
+                            <form class="form-horizontal" action="/member_add/" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="name">姓名<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-7">
+                                        <input class="form-control" type="text" id="name" name="name"
+                                               required="required"
+                                               placeholder="请输入姓名..">
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="gender">性别<span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-md-7">
-                                            <select class="form-control selectpicker" id="gender" name="gender">
-                                                <option value="man">男</option>
-                                                <option value="woman">女</option>
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="gender">性别<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-7">
+                                        <select class="form-control selectpicker" id="gender" name="gender">
+                                            <option value="man">男</option>
+                                            <option value="woman">女</option>
+                                        </select>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="birthday">生于</label>
-                                        <div class="col-md-7">
-                                            <input class="form-control" type="text" id="birthday" name="birthday"
-                                                   placeholder="请输入出生日期..">
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="birthday">生于</label>
+                                    <div class="col-md-7">
+                                        <input class="form-control" type="text" id="birthday" name="birthday"
+                                               placeholder="请输入出生日期..">
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="festival_day">卒于</label>
-                                        <div class="col-md-7">
-                                            <input class="form-control" type="text" id="festival_day"
-                                                   name="festival_day"
-                                                   placeholder="请输入卒于,没有则不填写..">
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="festival_day">卒于</label>
+                                    <div class="col-md-7">
+                                        <input class="form-control" type="text" id="festival_day"
+                                               name="festival_day"
+                                               placeholder="请输入卒于,没有则不填写..">
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="spouse">配偶名称</label>
-                                        <div class="col-md-7">
-                                            <input class="form-control" type="text" id="spouse" name="spouse"
-                                                   placeholder="请输入配偶名称,没有则不填写..">
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="spouse">配偶名称</label>
+                                    <div class="col-md-7">
+                                        <input class="form-control" type="text" id="spouse" name="spouse"
+                                               placeholder="请输入配偶名称,没有则不填写..">
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="introduction">备注</label>
-                                        <div class="col-md-7">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="introduction">备注</label>
+                                    <div class="col-md-7">
                                             <textarea class="form-control" id="introduction" name="introduction"
                                                       placeholder="请输入备注"></textarea>
-                                        </div>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="groupId">群组<span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-md-7">
-                                            <select class="form-control selectpicker" id="groupId" name="groupId">
-                                                <option value="">默认分组</option>
-                                                {% for group in group_list %}
-                                                    <option value="{{ group.id }}">{{ group.name }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="groupId">群组<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-7">
+                                        <select class="form-control selectpicker" id="groupId" name="groupId">
+                                            <option value="">默认分组</option>
+                                            {% for group in group_list %}
+                                                <option value="{{ group.id }}">{{ group.name }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="parentId">长辈名称<span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-md-7">
-                                            <select class="form-control selectpicker" data-live-search="true"
-                                                    id="parentId" name="parentId">
-                                                <option value="">选择长辈点,默认为根节点</option>
-                                                {% for member in member_list %}
-                                                    <option value="{{ member.id }}">{{ member.name }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="parentId">长辈名称<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-7">
+                                        <select class="form-control selectpicker" data-live-search="true"
+                                                id="parentId" name="parentId">
+                                            <option value="">选择长辈点,默认为根节点</option>
+                                            {% for member in member_list %}
+                                                <option value="{{ member.id }}">{{ member.name }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
+                                </div>
 
 
-                                    <div class="form-group">
-                                        <div class="col-md-9 col-md-offset-3">
-                                            <button class="btn btn-primary" type="submit">录入</button>
-                                        </div>
+                                <div class="form-group">
+                                    <div class="col-md-9 col-md-offset-3">
+                                        <button class="btn btn-primary" type="submit">录入</button>
                                     </div>
-                                </form>
+                                </div>
+                            </form>
 
-                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
-        </main>
-        <!--End 页面主要内容-->
-    </div>
-</div>
+        </div>
 
-<script type="text/javascript" src="https://pan.zealsay.com/family/static/js/jquery.min.js"></script>
-<script type="text/javascript" src="https://pan.zealsay.com/family/static/js/bootstrap.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select\@1.13.9/dist/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="https://pan.zealsay.com/family/static/js/perfect-scrollbar.min.js"></script>
-<script type="text/javascript" src="https://pan.zealsay.com/family/static/js/main.min.js"></script>
+    </main>
+    <!--End 页面主要内容-->
+{% endblock content %}
 
-<script type="text/javascript">
+{% block script_http %}
+    <script type="text/javascript" src="https://pan.zealsay.com/family/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://pan.zealsay.com/family/static/js/bootstrap.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select\@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="https://pan.zealsay.com/family/static/js/perfect-scrollbar.min.js"></script>
+    <script type="text/javascript" src="https://pan.zealsay.com/family/static/js/main.min.js"></script>
+{% endblock script_http %}
 
-</script>
-</body>
 
-</html>
+{% block _javascript %}
+
+{% endblock _javascript %}
+
+
+

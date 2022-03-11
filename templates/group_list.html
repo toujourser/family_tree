@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="zh">
-<script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?bc04990a72f1dd0b20287368c447790d";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>分组列表 -Family族谱系统</title>
-    <link rel="icon" href="favicon.ico" type="image/ico">
-    <meta name="keywords" content="Family族谱系统">
-    <meta name="description" content="Family族谱系统">
-    <meta name="author" content="zeal">
+{% block title %}族谱列表-Family族谱系统{% endblock title %}
+
+{% block head_list %}
     <link href="https://pan.zealsay.com/family/static/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select\@1.13.9/dist/css/bootstrap-select.min.css">
@@ -32,223 +17,158 @@
     <link rel="stylesheet" href="https://pan.zealsay.com/family/static/js/jconfirm/jquery-confirm.min.css">
     <link href="https://pan.zealsay.com/family/static/css/style.min.css" rel="stylesheet">
     <link href="https://pan.zealsay.com/family/static/css/style.min.css" rel="stylesheet">
-</head>
+{% endblock head_list %}
 
-<body class="lyear-layout-sidebar-close">
-<div class="lyear-layout-web">
-    <div class="lyear-layout-container">
-        <!--左侧导航-->
-        <aside class="lyear-layout-sidebar">
+{% block current_title %}族谱列表页{% endblock current_title %}
+{% block index_select %}{% endblock index_select %}
 
-            <!-- logo -->
-            <div id="logo" class="sidebar-header">
-                <a href="/index/">
-                    <h4 class="h4 text-primary">Family族谱管理系统</h4>
-                </a>
-            </div>
-            <div class="lyear-layout-sidebar-scroll">
+{% block content %}
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
 
-                <nav class="sidebar-main">
-                    <ul class="nav nav-drawer">
-                        <li class="nav-item active"><a href="/index/"><i class="mdi mdi-home"></i> 族谱树</a></li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-account"></i> 成员管理</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="/list/">成员列表</a></li>
-                                <li><a href="/member_add/">成员添加</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-account-multiple"></i> 分组管理</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="/group_add/">群组添加</a></li>
-                                <li><a href="/group_list/">群组列表</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+        <div class="container-fluid">
 
-        </aside>
-        <!--End 左侧导航-->
-
-        <!--头部信息-->
-        <header class="lyear-layout-header">
-
-            <nav class="navbar navbar-default">
-                <div class="topbar">
-
-                    <div class="topbar-left">
-                        <div class="lyear-aside-toggler">
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
-                            <span class="lyear-toggler-bar"></span>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-toolbar clearfix">
+                            <div class="toolbar-btn-action">
+                                <a class="btn btn-primary m-r-5" href="/group_add/"><i class="mdi mdi-plus"></i>
+                                    新增</a>
+                            </div>
                         </div>
-                        <span class="navbar-page-title"> 族谱列表页 </span>
-                    </div>
+                        <div class="card-body">
 
-                    <ul class="topbar-right">
-                        <li class="dropdown dropdown-profile">
-                            <a href="javascript:void(0)" data-toggle="dropdown">
-                                <span>{{ username }}  <span
-                                        class="caret"></span></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="/logout"><i class="mdi mdi-logout-variant"></i> 退出登录</a>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" style='width:10%;'>编号</th>
+                                        <th class="text-center" style='width:20%;'>名称</th>
+                                        <th class="text-center" style='width:50%;'>备注</th>
+                                        <th class="text-center" style='width:10%;'>录入日期</th>
+                                        <th class="text-center" style='width:10%;'>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for group in group_list %}
+                                        <tr>
+                                            <td class="text-center">{{ group.id }}</td>
+                                            <td class="text-center">{{ group.name }}</td>
+                                            <td class="text-center">{{ group.remark }}</td>
+                                            <td class="text-center">{{ group.created_at }}</td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-xs btn-default"
+                                                       href="/group_edit/?id={{ group.id }}" title="编辑"
+                                                       data-toggle="tooltip"><i
+                                                            class="mdi mdi-pencil"></i></a>
+                                                    <a class="btn btn-xs btn-default"
+                                                       onclick="remove('{{ group.id }}')"
+                                                       title="删除"
+                                                       data-toggle="tooltip"><i
+                                                            class="mdi mdi-window-close"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <ul class="pagination pagination-circle">
+                                <li>
+                                    {% if current_page.has_previous %}
+                                        <a href="/group_list/?page={{ current_page.previous_page_number }}&groupId={{ group_id }}&name={{ input_name }}">
+                                            <span><i class="mdi mdi-chevron-left"></i></span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                {% for index in paginator.page_range %}
+                                    <li>
+                                        {% if  page_id == index %}
+                                            <li class="active"><a
+                                                    href="/group_list?page={{ index }}&groupId={{ group_id }}&name={{ input_name }}">{{ index }}</a>
+                                            </li>
+                                        {% else %}
+                                            <a href="/group_list/?page={{ index }}&groupId={{ group_id }}&name={{ input_name }}">{{ index }}</a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+
+                                <li>
+                                    {% if current_page.has_next %}
+                                        <a href="/group_list/?page={{ current_page.next_page_number }}&groupId={{ group_id }}&name={{ input_name }}">
+                                            <span><i class="mdi mdi-chevron-right"></i></span>
+                                        </a>
+                                    {% endif %}
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-
-                </div>
-            </nav>
-
-        </header>
-        <!--End 头部信息-->
-
-        <!--页面主要内容-->
-        <main class="lyear-layout-content">
-
-            <div class="container-fluid">
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-toolbar clearfix">
-                                <div class="toolbar-btn-action">
-                                    <a class="btn btn-primary m-r-5" href="/group_add/"><i class="mdi mdi-plus"></i>
-                                        新增</a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th class="text-center" style='width:10%;'>编号</th>
-                                            <th class="text-center" style='width:20%;'>名称</th>
-                                            <th class="text-center" style='width:50%;'>备注</th>
-                                            <th class="text-center" style='width:10%;'>录入日期</th>
-                                            <th class="text-center" style='width:10%;'>操作</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for group in group_list %}
-                                            <tr>
-                                                <td class="text-center">{{ group.id }}</td>
-                                                <td class="text-center">{{ group.name }}</td>
-                                                <td class="text-center">{{ group.remark }}</td>
-                                                <td class="text-center">{{ group.created_at }}</td>
-                                                <td class="text-center">
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-xs btn-default"
-                                                           href="/group_edit/?id={{ group.id }}" title="编辑"
-                                                           data-toggle="tooltip"><i
-                                                                class="mdi mdi-pencil"></i></a>
-                                                        <a class="btn btn-xs btn-default"
-                                                           onclick="remove('{{ group.id }}')"
-                                                           title="删除"
-                                                           data-toggle="tooltip"><i
-                                                                class="mdi mdi-window-close"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <ul class="pagination pagination-circle">
-                                    <li>
-                                        {% if current_page.has_previous %}
-                                            <a href="/group_list/?page={{ current_page.previous_page_number }}&groupId={{ group_id }}&name={{ input_name }}">
-                                                <span><i class="mdi mdi-chevron-left"></i></span>
-                                            </a>
-                                        {% endif %}
-                                    </li>
-                                    {% for index in paginator.page_range %}
-                                        <li>
-                                            {% if  page_id == index %}
-                                                <li class="active"><a
-                                                        href="/group_list?page={{ index }}&groupId={{ group_id }}&name={{ input_name }}">{{ index }}</a>
-                                                </li>
-                                            {% else %}
-                                                <a href="/group_list/?page={{ index }}&groupId={{ group_id }}&name={{ input_name }}">{{ index }}</a>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-
-                                    <li>
-                                        {% if current_page.has_next %}
-                                            <a href="/group_list/?page={{ current_page.next_page_number }}&groupId={{ group_id }}&name={{ input_name }}">
-                                                <span><i class="mdi mdi-chevron-right"></i></span>
-                                            </a>
-                                        {% endif %}
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
-        </main>
-        <!--End 页面主要内容-->
-    </div>
-</div>
+        </div>
 
-<script type="text/javascript" src="https://pan.zealsay.com/family/static/js/jquery.min.js"></script>
-<script type="text/javascript" src="https://pan.zealsay.com/family/static/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select\@1.13.9/dist/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="https://pan.zealsay.com/family/static/js/perfect-scrollbar.min.js"></script>
-<!--对话框-->
-<script src="https://pan.zealsay.com/family/static/js/jconfirm/jquery-confirm.min.js"></script>
-<script type="text/javascript" src="https://pan.zealsay.com/family/static/js/main.min.js"></script>
+    </main>
+    <!--End 页面主要内容-->
+{% endblock content %}
 
-<script type="text/javascript">
-    function remove(id) {
-        $.confirm({
-            title: '操作提示',
-            content: '确定要删除吗？',
-            buttons: {
-                confirm: {
-                    text: '确定',
-                    action: function () {
-                        $.ajax({
-                            url: "/group_list/",
-                            type: "DELETE",
-                            contentType: "application/json",//设置请求参数类型为json字符串
-                            data: JSON.stringify({"id": id}),//将json对象转换成json字符串发送
-                            dataType: "json",
-                            success: function (result) {
-                                console.log('--------------+++')
-                                window.location.reload()
-                            },
-                            error: function (xhr) {
-                                console.log("状态码：" + xhr.status);
-                                if (xhr.status != 200) {
-                                    alert("删除失败")
-                                } else {
+{% block script_http %}
+    <script type="text/javascript" src="https://pan.zealsay.com/family/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://pan.zealsay.com/family/static/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select\@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="https://pan.zealsay.com/family/static/js/perfect-scrollbar.min.js"></script>
+    <!--对话框-->
+    <script src="https://pan.zealsay.com/family/static/js/jconfirm/jquery-confirm.min.js"></script>
+    <script type="text/javascript" src="https://pan.zealsay.com/family/static/js/main.min.js"></script>
+{% endblock script_http %}
+
+
+{% block _javascript %}
+    <script type="text/javascript">
+        function remove(id) {
+            $.confirm({
+                title: '操作提示',
+                content: '确定要删除吗？',
+                buttons: {
+                    confirm: {
+                        text: '确定',
+                        action: function () {
+                            $.ajax({
+                                url: "/group_list/",
+                                type: "DELETE",
+                                contentType: "application/json",//设置请求参数类型为json字符串
+                                data: JSON.stringify({"id": id}),//将json对象转换成json字符串发送
+                                dataType: "json",
+                                success: function (result) {
+                                    console.log('--------------+++')
                                     window.location.reload()
-                                }
+                                },
+                                error: function (xhr) {
+                                    console.log("状态码：" + xhr.status);
+                                    if (xhr.status != 200) {
+                                        alert("删除失败")
+                                    } else {
+                                        window.location.reload()
+                                    }
 
-                            },
+                                },
 
-                        });
-                    }
-                },
-                cancel: {
-                    text: '取消',
-                    action: function () {
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: '取消',
+                        action: function () {
 
+                        }
                     }
                 }
-            }
-        })
-    };
+            })
+        };
+    </script>
+{% endblock _javascript %}
 
-</script>
-</body>
 
-</html>
+

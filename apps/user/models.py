@@ -38,3 +38,4 @@ class Members(models.Model):
         db_table = 'family_member'
         verbose_name = '家族成员'
         verbose_name_plural = '家族成员'
+        ordering = ['id']

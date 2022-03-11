@@ -2,12 +2,10 @@ from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirec
 from django.views import View
 from apps.user.models import Members
 from apps.group.models import Groups
-from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
-from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import QueryDict
+from django.db.models import Q
 import json
 
 
@@ -23,7 +21,7 @@ class GroupList(View):
         paginator = Paginator(group_list, page_size)
         # 根据当前页码,确定返回的数据
         current_page = paginator.page(page)
-        # 保证前端取到的"页数"为整型
+        # 保证前端取到的'页数'为整型
         page_id = int(page)
         # 总数
         count = paginator.count
@@ -46,12 +44,12 @@ class GroupAdd(View):
     def post(self, request):
         name = request.POST.get('name')
         if len(name) == 0:
-            return HttpResponse({'code': 400, 'msg': '族谱名不能为空'})
+            return render(request, 'fail.html', {'msg': '族谱名不能为空...'})
         remark = request.POST.get('introduction')
 
         g = Groups.objects.filter(name__icontains=name).first()
         if g:
-            return HttpResponse({'code': 400, 'msg': '族谱名已存在'})
+            return render(request, 'fail.html', {'msg': '家谱名称已存在...'})
         Groups(name=name, remark=remark, created_by=request.user.username).save()
         return redirect('/group_list/')
 
@@ -72,10 +70,13 @@ class GroupEdit(View):
         id = request.POST.get('id')
         group = Groups.objects.filter(id=id).first()
         if not group:
-            return HttpResponse({'code': 400, 'msg': '家谱节点不存在'})
+            return render(request, 'fail.html', {'msg': '族谱不存在...'})
         name = request.POST.get('name')
         if name == '':
-            return HttpResponse({'code': 400, 'msg': '家谱名称不可为空'})
+            return render(request, 'fail.html', {'msg': '家谱名称不可为空...'})
+
+        if Groups.objects.filter(name__icontains=name).exclude(id=id).first():
+            return render(request, 'fail.html', {'msg': '家谱名称已存在...'})
         group.name = name
         group.remark = request.POST.get('introduction')
         group.updated_by = request.user.username

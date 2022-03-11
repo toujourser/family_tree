@@ -18,3 +18,4 @@ class Groups(models.Model):
         db_table = 'family_group'
         verbose_name = '族谱族群'
         verbose_name_plural = '族谱族群'
+        ordering = ['id']
