@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 
 
 class GroupAdmin(admin.ModelAdmin):
+    ordering = ["-id", ]
     # 需要显示的字段信息
     list_display = ('id', 'name', 'remark', 'created_by', 'updated_at')
 

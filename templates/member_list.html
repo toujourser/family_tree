@@ -44,20 +44,22 @@
                     <div class="card">
                         <div class="card-toolbar clearfix">
                             <form class="form-inline pull-right" action="/list/" method="get">
+                                {% if user.is_superuser %}
+                                    <div class="form-group">
+                                        <select class="form-control selectpicker" name="groupId" id="selected_group"
+                                                data-live-search="true">
+                                            <option value="">选择分组
+                                            </option>
+                                            {% for group in group_list %}
+                                                <option value="{{ group.id }}">{{ group.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                {% endif %}
                                 <div class="form-group">
-                                    <select class="form-control selectpicker" name="groupId" id="selected_group"
-                                            data-live-search="true">
-                                        <option value="">选择分组
-                                        </option>
-                                        {% for group in group_list %}
-                                            <option value="{{ group.id }}">{{ group.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="name">姓名</label>
-                                    <input class="form-control" type="text" id="name" name="name"
-                                           placeholder="姓名..">
+                                    <label class="sr-only" for="name">关键词</label>
+                                    <input class="form-control" type="text" id="keyword" name="keyword"
+                                           placeholder="关键词..">
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-default" type="submit">查询</button>
@@ -183,7 +185,6 @@
                                 data: JSON.stringify({"id": id}),//将json对象转换成json字符串发送
                                 dataType: "json",
                                 success: function (result) {
-                                    console.log('--------------+++')
                                     window.location.reload()
                                 },
                                 error: function (xhr) {

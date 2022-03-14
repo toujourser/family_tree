@@ -38,20 +38,34 @@
                 <nav class="sidebar-main">
                     <ul class="nav nav-drawer">
                         <li class="nav-item active"><a href="/index/"><i class="mdi mdi-home"></i> 族谱树</a></li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-account"></i> 成员管理</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="/list/">成员列表</a></li>
-                                <li><a href="/member_add/">成员添加</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="mdi mdi-account-multiple"></i> 分组管理</a>
-                            <ul class="nav nav-subnav">
-                                <li><a href="/group_add/">群组添加</a></li>
-                                <li><a href="/group_list/">群组列表</a></li>
-                            </ul>
-                        </li>
+                        {% for k, v in menu_list.items %}
+                            {% if k == 'member_mgr' %}
+                                <li class="nav-item nav-item-has-subnav">
+                                    <a href="javascript:void(0)"><i class="mdi mdi-account"></i> 成员管理</a>
+                                    <ul class="nav nav-subnav">
+                                        {% if v|length == 1 %}
+                                            <li><a href="/list/">{{ v.0 }}</a></li>
+                                        {% elif v|length == 2 %}
+                                            <li><a href="/list/">{{ v.0 }}</a></li>
+                                            <li><a href="/member_add/">{{ v.1 }}</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            {% if k == 'group_mgr' %}
+                                <li class="nav-item nav-item-has-subnav">
+                                    <a href="javascript:void(0)"><i class="mdi mdi-account-multiple"></i> 分组管理</a>
+                                    <ul class="nav nav-subnav">
+                                        {% if v|length == 1 %}
+                                            <li><a href="/group_list/">{{ v.0 }}</a></li>
+                                        {% elif v|length == 2 %}
+                                            <li><a href="/group_list/">{{ v.0 }}</a></li>
+                                            <li><a href="/group_add/">{{ v.1 }}</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
                     </ul>
                 </nav>
             </div>
@@ -97,7 +111,7 @@
                     <ul class="topbar-right">
                         <li class="dropdown dropdown-profile">
                             <a href="javascript:void(0)" data-toggle="dropdown">
-                                <span>{{ username }} <span
+                                <span>{{ user.username }} <span
                                         class="caret"></span></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">

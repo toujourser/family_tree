@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import QueryDict
+from django.db.models import Q
 import json
 
 
@@ -30,13 +30,20 @@ class Login(View):
 class Index(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request):
-        group_id = request.GET.get('id', 1)
+        menu_list = Menu.get_menu(request)
+        if request.user.is_superuser:
+            group_id = request.GET.get('id', 1)
+            group_list = Groups.objects.all()
+        else:
+            group_id = request.user.group_id
+            group_list = Groups.objects.filter(id=group_id).all()
+
         data = self.get_tree(group_id)
         group = Groups.objects.filter(id=group_id).first()
-        group_list = Groups.objects.all()
-        return render(request, 'index.html',
-                      {'username': request.user.username, 'group_list': group_list, 'data': json.dumps(data),
-                       'group_': group})
+        user = request.user
+        data = json.dumps(data)
+        group_ = group
+        return render(request, 'index.html', locals())
 
     def get_tree(self, group_id):
         member_list = Members.objects.filter(group_id=group_id).all()
@@ -66,20 +73,31 @@ class Index(View):
 class Member(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request):
+        menu_list = Menu.get_menu(request)
+        if not request.user.has_perm('user.view_members'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
+
         page = request.GET.get('page', 1)
         page_size = request.GET.get('page_size', 15)
         group_id = request.GET.get('groupId', '')
-        input_name = request.GET.get('name', '')
+        keyword = request.GET.get('keyword', '')
 
-        member_obs = Members.objects
-        if len(group_id) > 0 or len(input_name) > 0:
-            if len(group_id) > 0:
-                if group_id == '': group_id = 0
-                member_obs = member_obs.filter(group_id=group_id)
-            if len(input_name) > 0:
-                member_obs = member_obs.filter(name=input_name)
+        if request.user.is_superuser:
+            group_list = Groups.objects.all()
+            member_obs = Members.objects
         else:
-            member_obs = Members.objects.all()
+            group_list = Groups.objects.filter(id=request.user.group_id).all()
+            member_obs = Members.objects.filter(group_id=request.user.group_id)
+        if len(group_id) > 0 or len(keyword) > 0:
+            if len(group_id) > 0:
+                member_obs = member_obs.filter(group_id=group_id)
+            if len(keyword) > 0:
+                member_obs = member_obs.filter(
+                    Q(name__icontains=keyword) | Q(parent__name__icontains=keyword) | Q(spouse__icontains=keyword)
+                    | Q(introduction__icontains=keyword) | Q(birthday__icontains=keyword)
+                    | Q(festival_day__icontains=keyword))
+        else:
+            member_obs = member_obs.all()
 
         member_obs = member_obs.order_by('-id')
 
@@ -93,13 +111,14 @@ class Member(View):
         count = paginator.count
 
         member_list = current_page.object_list
-        group_list = Groups.objects.all()
 
-        username = request.user.username
+        user = request.user
         return render(request, 'member_list.html', locals())
 
     @method_decorator(login_required(login_url='/login/'))
     def delete(self, request):
+        if not request.user.has_perm('user.delete_members'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         param = json.loads(request.body)
         member_id = param['id']
         Members.objects.filter(id=member_id).delete()
@@ -109,13 +128,18 @@ class Member(View):
 class MemberAdd(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request):
+        menu_list = Menu.get_menu(request)
+        if not request.user.has_perm('user.add_members'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         group_list = Groups.objects.all()
         member_list = Members.objects.all().order_by('-id')
-        username = request.user.username
+        user = request.user
         return render(request, 'member_add.html', locals())
 
     @method_decorator(login_required(login_url='/login/'))
     def post(self, request):
+        if not request.user.has_perm('user.add_members'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         name = request.POST.get('name')
         if name == '':
             return render(request, 'fail.html', {'msg': '姓名不可为空...'})
@@ -155,19 +179,24 @@ class MemberAdd(View):
 class MemberEdit(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request, id=None):
+        menu_list = Menu.get_menu(request)
+        if not request.user.has_perm('user.change_members'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         member_id = request.GET.get('id')
         if not member_id:
             member_id = id
-        user = Members.objects.get(id=member_id)
-        parent = user.parent
-        group = user.group
+        edit_user = Members.objects.get(id=member_id)
+        parent = edit_user.parent
+        group = edit_user.group
         group_list = Groups.objects.all()
         member_list = Members.objects.all()
-        username = request.user.username
+        user = request.user
         return render(request, 'member_edit.html', locals())
 
     @method_decorator(login_required(login_url='/login/'))
     def post(self, request):
+        if not request.user.has_perm('user.change_members'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         id = request.POST.get('id')
         member = Members.objects.filter(id=id).first()
         name = request.POST.get('name')
@@ -189,7 +218,7 @@ class MemberEdit(View):
 
         parentId = request.POST.get('parentId')
         parent = None
-        if int(parentId) > 0:
+        if len(parentId) > 0 and int(parentId) > 0:
             parent = Members.objects.filter(id=parentId).first()
             if not parent:
                 return render(request, 'fail.html', {'msg': '找不到对应长辈...'})
@@ -203,3 +232,23 @@ class Logout(View):
     def get(self, request):
         logout(request)
         return render(request, 'login.html')
+
+
+class Menu:
+    @classmethod
+    def get_menu(cls, request):
+        menu_list = {'member_mgr': [], 'group_mgr': []}
+        if request.user.is_superuser:
+            menu_list['member_mgr'] = ['成员列表', '成员添加']
+            menu_list['group_mgr'] = ['群组列表', '群组添加']
+            return menu_list
+        if request.user.has_perm('user.view_members'):
+            menu_list['member_mgr'].append('成员列表')
+        if request.user.has_perm('user.add_members'):
+            menu_list['member_mgr'].append('成员添加')
+        if request.user.has_perm('user.view_groups'):
+            menu_list['group_mgr'].append('群组列表')
+        if request.user.has_perm('user.add_groups'):
+            menu_list['group_mgr'].append('群组添加')
+
+        return menu_list

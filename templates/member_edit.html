@@ -33,7 +33,7 @@
                                             class="text-danger">*</span></label>
                                     <div class="col-md-7">
                                         <input class="form-control" readonly type="text" id="id" name="id"
-                                               value="{{ user.id }}">
+                                               value="{{ edit_user.id }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -42,7 +42,7 @@
                                     <div class="col-md-7">
                                         <input class="form-control" type="text" id="name" name="name"
                                                required="required"
-                                               value="{{ user.name }}"
+                                               value="{{ edit_user.name }}"
                                                placeholder="请输入姓名..">
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@
                                             class="text-danger">*</span></label>
                                     <div class="col-md-7">
                                         <select class="form-control selectpicker" id="gender" name="gender"
-                                                value="{{ user.gender }}">
+                                                value="{{ edit_user.gender }}">
                                             <option value="man">男</option>
                                             <option value="woman">女</option>
                                         </select>
@@ -62,7 +62,7 @@
                                     <label class="col-md-3 control-label" for="birthday">生于</label>
                                     <div class="col-md-7">
                                         <input class="form-control" type="text" id="birthday" name="birthday"
-                                               value="{{ user.birthday }}">
+                                               value="{{ edit_user.birthday }}">
                                     </div>
                                 </div>
 
@@ -70,7 +70,7 @@
                                     <label class="col-md-3 control-label" for="festival_day">卒于</label>
                                     <div class="col-md-7">
                                         <input class="form-control" type="text" id="festival_day"
-                                               name="festival_day" value="{{ user.festival_day }}">
+                                               name="festival_day" value="{{ edit_user.festival_day }}">
                                     </div>
                                 </div>
 
@@ -78,7 +78,7 @@
                                     <label class="col-md-3 control-label" for="spouse">配偶名称</label>
                                     <div class="col-md-7">
                                         <input class="form-control" type="text" id="spouse" name="spouse"
-                                               value="{{ user.spouse }}"
+                                               value="{{ edit_user.spouse }}"
                                                placeholder="请输入配偶名称,没有则不填写..">
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                     <label class="col-md-3 control-label" for="introduction">备注</label>
                                     <div class="col-md-7">
                                             <textarea class="form-control" id="introduction" name="introduction"
-                                                      placeholder="请输入备注">{{ user.introduction }}</textarea>
+                                                      placeholder="请输入备注">{{ edit_user.introduction }}</textarea>
                                     </div>
                                 </div>
 
@@ -155,8 +155,8 @@
 {% block _javascript %}
     <script type="text/javascript">
         $(function () {
-            var sel_parent_id = {{ user.parent_id }};
-            var sel_group_id = {{ user.group_id }};
+            var sel_parent_id = {{ edit_user.parent_id }};
+            var sel_group_id = {{ edit_user.group_id }};
             $("#parentId").val(sel_parent_id);
             $("#groupId").val(sel_group_id);
         });

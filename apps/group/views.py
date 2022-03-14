@@ -6,16 +6,24 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
+from apps.user.views import Menu
 import json
 
 
 class GroupList(View):
     def get(self, request):
+        menu_list = Menu.get_menu(request)
+        if not request.user.has_perm('user.view_groups'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         page = request.GET.get('page', 1)
         page_size = request.GET.get('page_size', 5)
 
-        group_list = Groups.objects.all()
-        username = request.user.username
+        user = request.user
+
+        if request.user.is_superuser:
+            group_list = Groups.objects.all()
+        else:
+            group_list = Groups.objects.filter(id=user.group_id).all()
 
         # 创建分页对象
         paginator = Paginator(group_list, page_size)
@@ -29,6 +37,8 @@ class GroupList(View):
         return render(request, 'group_list.html', locals())
 
     def delete(self, request):
+        if not request.user.has_perm('user.delete_groups'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         param = json.loads(request.body)
         group_id = param['id']
         print(group_id)
@@ -38,10 +48,15 @@ class GroupList(View):
 
 class GroupAdd(View):
     def get(self, request):
-        username = request.user.username
+        menu_list = Menu.get_menu(request)
+        if not request.user.has_perm('user.add_groups'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
+        user = request.user
         return render(request, 'group_add.html', locals())
 
     def post(self, request):
+        if not request.user.has_perm('user.add_groups'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         name = request.POST.get('name')
         if len(name) == 0:
             return render(request, 'fail.html', {'msg': '族谱名不能为空...'})
@@ -57,16 +72,21 @@ class GroupAdd(View):
 class GroupEdit(View):
     @method_decorator(login_required(login_url='/login/'))
     def get(self, request):
+        menu_list = Menu.get_menu(request)
+        if not request.user.has_perm('user.change_groups'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         group_id = request.GET.get('id')
         print(group_id)
         group = Groups.objects.get(id=group_id)
         group_list = Groups.objects.all()
         member_list = Members.objects.all()
-        username = request.user.username
+        user = request.user
         return render(request, 'group_edit.html', locals())
 
     @method_decorator(login_required(login_url='/login/'))
     def post(self, request):
+        if not request.user.has_perm('user.change_groups'):
+            return render(request, 'fail.html', {'msg': '该用户没有操作权限...'})
         id = request.POST.get('id')
         group = Groups.objects.filter(id=id).first()
         if not group:
